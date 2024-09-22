@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Vocal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Assistant Vocal</h1>
+        <div class="microphone">
+            <img src="{{ url_for('static', filename='images/microphone.jpg') }}" alt="Microphone" id="mic-img">
+        </div>
+        <button id="start-recording">Commencer l'enregistrement</button>
+        <p id="response"></p>
+    </div>
+    <script>
+        document.getElementById('start-recording').addEventListener('click', function() {
+            document.getElementById('response').innerText = 'Écoute...';
+            fetch('/process-command', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('response').innerText = data.response;
+                });
+        });
+    </script>
+</body>
+</html>
